@@ -56,8 +56,8 @@ public class SocialServerConfig implements SocialConfigurer{
 
 	@Override
 	public UserIdSource getUserIdSource() {
-//		return new AuthenticationNameUserIdSource();
-		return new UserIdGenerator();
+		return new AuthenticationNameUserIdSource();
+//		return new UserIdGenerator();
 	}
 
 	@Override
