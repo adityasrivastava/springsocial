@@ -13,7 +13,10 @@ public class SocialConfig {
 	    public ConnectController connectController(
 	                ConnectionFactoryLocator connectionFactoryLocator,
 	                ConnectionRepository connectionRepository) {
-	        return new ConnectController(connectionFactoryLocator, connectionRepository);
+	 		
+	 		ConnectController connect = new ConnectController(connectionFactoryLocator, connectionRepository);
+
+	        return connect;
 	    }
 
 }

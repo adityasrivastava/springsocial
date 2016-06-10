@@ -34,14 +34,7 @@ public class MainController {
 //	@Autowired
 //	ConnectionFactoryLocator connectionLocator;
 	
-	@Bean(destroyMethod = "shutdown")
-	public DataSource dataSource() {
-		EmbeddedDatabaseFactory factory = new EmbeddedDatabaseFactory();
-		factory.setDatabaseName("spring-social-quickstart");
-		factory.setDatabaseType(EmbeddedDatabaseType.H2);
-		factory.setDatabasePopulator(databasePopulator());
-		return factory.getDatabase();
-	}
+
 	
 //	@RequestMapping("/")
 //	public void mainPage(HttpServletResponse response){
@@ -81,12 +74,6 @@ public class MainController {
 	@RequestMapping("/redirect-callback2")
 	public void test(){
 		System.out.println("Test success");
-	}
-	
-	private DatabasePopulator databasePopulator() {
-		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.addScript(new ClassPathResource("JdbcUsersConnectionRepository.sql", JdbcUsersConnectionRepository.class));
-		return populator;
 	}
 	
 

@@ -4,8 +4,14 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
@@ -21,8 +27,27 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 @EnableSocial
 public class SocialServerConfig implements SocialConfigurer{
 	
-	@Inject
+	@Autowired
 	DataSource dataSource;
+	
+	
+	
+	@Bean(destroyMethod = "shutdown")
+	public DataSource dataSource() {
+		EmbeddedDatabaseFactory factory = new EmbeddedDatabaseFactory();
+		factory.setDatabaseName("springsocial");
+		factory.setDatabaseType(EmbeddedDatabaseType.H2);
+		factory.setDatabasePopulator(databasePopulator());
+		return factory.getDatabase();
+	}
+	
+	private DatabasePopulator databasePopulator() {
+		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+		populator.addScript(new ClassPathResource("JdbcUsersConnectionRepository.sql", JdbcUsersConnectionRepository.class));
+		return populator;
+	}
+	
+
 
 	@Override
 	public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfig, Environment env) {
@@ -31,7 +56,8 @@ public class SocialServerConfig implements SocialConfigurer{
 
 	@Override
 	public UserIdSource getUserIdSource() {
-		return new AuthenticationNameUserIdSource();
+//		return new AuthenticationNameUserIdSource();
+		return new UserIdGenerator();
 	}
 
 	@Override
