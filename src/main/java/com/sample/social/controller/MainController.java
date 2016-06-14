@@ -11,9 +11,10 @@ public class MainController {
 	@Autowired
 	Environment env;
 	
-	@RequestMapping("/mainPage")
-	public void mainPage(){
-		System.out.println("Hello");
+	@RequestMapping("/home")
+	public String mainPage(){
+		return "home";
 	}
+
 
 }

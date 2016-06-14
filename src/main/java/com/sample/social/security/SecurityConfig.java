@@ -8,24 +8,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.sample.social.repo.UserRepository;
 import com.sample.social.service.SpringSecurityUserService;
+import com.sample.social.service.SpringSocialUserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
-//	@Autowired
-//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.
-//			inMemoryAuthentication()
-//			.withUser("aditya")
-//			.password("aditya")
-//			.roles("USER");
-//	}
-	
+
 	@Autowired
 	UserRepository userRepository;
 	
@@ -37,12 +30,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.antMatcher("/**")
-			.authorizeRequests()
-				.anyRequest().hasRole("USER")
-				.and()
-			.httpBasic();
+		http.
+		csrf()
+		.disable().
+		formLogin()
+		.loginPage("/login")
+		.and()
+		.authorizeRequests()
+		.antMatchers("/home")
+		.authenticated()
+		.and()
+         .apply(new SpringSocialConfigurer());
+	}
+	
+	@Bean
+	public SpringSocialUserService socialUserDetailsService(){
+		return new SpringSocialUserService(userRepository);
 	}
 	
 	@Bean

@@ -15,6 +15,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.3.3.RELEASE</version>
 	</parent>
+	
 
 	<repositories>
 		<!-- <repository> <id>org.springframework.maven.milestone</id> <name>Spring 
@@ -25,6 +26,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.social.version>1.1.4.RELEASE</spring.social.version>
+		<spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
 	</properties>
 
 	<dependencies>
@@ -103,6 +106,48 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Spring Social -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<!-- Spring Social Facebook -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>${spring.social.facebook.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-social-core</artifactId>
+					<groupId>org.springframework.social</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-social-config</artifactId>
+					<groupId>org.springframework.social</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Spring Social Twitter -->
+
+
+
 	</dependencies>
 
 	<build>
